@@ -1,0 +1,34 @@
+<?php
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+    if ($conn->query($sql) === TRUE) {
+        header('Location: view_users.php');
+        exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add User</title>
+    <link rel="stylesheet" href="path/to/bootstrap.css"> <!-- Укажите путь к CSS -->
+</head>
+<body>
+    <h1>Add User</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Add User</button>
+    </form>
+    <a href="view_users.php">Back to Users</a>
+</body>
+</html>
